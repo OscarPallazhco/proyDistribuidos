@@ -1,0 +1,58 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h2 class="modal-title">Edición de Cotización: {{ object }}</h2>            
+        </div>
+        <form action="{% url 'AdministracionBTM:editar_cotizacion' object.idcot %}" method="POST">
+            {% csrf_token %}
+            <div class="modal-body">
+                {% if error %}
+                    <h2>{{ error }}</h2>
+                {% else %}
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Formulario de Registro</strong>
+                        </div>
+                        <div class="card-body card-block">
+                            <form action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.ci_ruc.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.ci_ruc }}</div>
+                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.motivo.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.motivo }}</div>
+                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.iditem.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.iditem }}</div>
+                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.condicionpago.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.condicionpago }}</div>
+                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.tiempoestimado.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.tiempoestimado }}</div>
+                                    
+                                </div>
+                                
+                                <div class="text-center">
+                                    <button class="btn btn-primary" type="submit">Confirmar</button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>                
+                </div>            
+            {% endif %}        
+        </form>
+    </div>
+</div>

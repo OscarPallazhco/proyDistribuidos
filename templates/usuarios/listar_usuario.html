@@ -1,0 +1,44 @@
+{% extends 'index.html' %}
+{% block titulo %}BTM Motion | Listado de Usuarios{% endblock titulo %}
+{% block body %}
+
+    {% if usuarios %}
+
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Listado de Usuarios</strong>
+            </div>
+            <div class="table-stats order-table ov-h">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>NOMBRE DE USUARIO</th>
+                            <th>NOMBRES</th>
+                            <th>APELLIDOS</th>
+                            <th>CORREO ELECTRÓNICO</th>
+                            <th>OPCIONES</th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in usuarios %}
+                            <tr>
+                                <td>{{ usuario.username }}</td>
+                                <td>{{ usuario.nombres }}</td>
+                                <td>{{ usuario.apellidos }}</td>  
+                                <td>{{ usuario.email }}</td>      
+                                <td>
+                                    <a href="" class="btn btn-primary btn-sm">EDITAR</a>
+                                    <a href="" class="btn btn-danger btn-sm">ELIMINAR</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <h1>No existen usuarios registrados</h1>
+    {% endif %}
+
+{% endblock body %}
+

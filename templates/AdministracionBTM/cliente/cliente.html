@@ -1,0 +1,84 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h2 class="modal-title">Edición de Cliente: {{ object }}</h2>            
+        </div>
+        <form action="{% url 'AdministracionBTM:editar_cliente' object.ci_ruc %}" method="POST">
+            {% csrf_token %}
+            <div class="modal-body">
+                {% if error %}
+                    <h2>{{ error }}</h2>
+                {% else %}
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Formulario de Registro</strong>
+                        </div>
+                        <div class="card-body card-block">
+                            <form action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.ci_ruc.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.ci_ruc }}</div>                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.nombres.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.nombres }}</div>                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.apellidos.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.apellidos }}</div>                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.empresa.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.empresa }}</div>                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.web.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.web }}</div>                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.direccion.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.direccion }}</div>                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.provincia.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.provincia }}</div>                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.canton.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.canton }}</div>                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.cp.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.cp }}</div>                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.correo.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.correo }}</div>                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.descripcion.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.descripcion }}</div>                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.notas.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.notas }}</div>                                    
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3">{{ form.disponibilidad.label }}</div> 
+                                    <div class="col-12 col-md-9">{{ form.disponibilidad }}</div>                                    
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-primary" type="submit">Confirmar</button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>                
+                </div>            
+            {% endif %}        
+        </form>
+    </div>
+</div>

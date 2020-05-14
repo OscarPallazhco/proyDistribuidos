@@ -1,0 +1,63 @@
+{% extends 'index.html' %}
+{% block titulo %}BTM Motion | Listado de Imágenes{% endblock titulo %}
+{% block body %}
+
+    <div class="text-center pb-4">
+        <button class="btn btn-primary btn-block" type="button" onclick="abrir_modal_creacion('{% url 'AdministracionBTM:crear_imagen' %}')">Crear Imagen</button>
+    </div>
+
+    {% if imagenes %}
+
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Listado de Imágenes</strong>
+            </div>
+            <div class="table-stats order-table ov-h">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>DESCRIPCIÓN</th>
+                            <th>PROYECTO</th>
+                            <th>OPCIONES</th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for imagen in imagenes %}
+                            <tr>
+                                <td>{{ imagen.idimagen }}</td>
+                                <td>{{ imagen.descripcion }}</td>
+                                <td>{{ imagen.idproy }}</td>     
+                                <td>
+                                    <button onclick="abrir_modal_edicion('{% url 'AdministracionBTM:editar_imagen' imagen.idimagen %}')" class='btn btn-primary btn-sm'>EDITAR</button>
+                                    <a href="{% url 'AdministracionBTM:eliminar_imagen' imagen.idimagen %}" class="btn btn-danger btn-sm">ELIMINAR</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <h1>No existen imágenes registradas</h1>
+    {% endif %}
+    <div class="modal fade" id="creacion" role="dialog"></div>
+    <div class="modal fade" id="edicion" role="dialog"></div>
+
+{% endblock body %}
+
+{% block extrajs %}
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();        
+        function abrir_modal_edicion(url){
+            $('#edicion').load(url, function (){
+            $(this).modal('show');
+            });
+        }
+        function abrir_modal_creacion(url){
+            $('#creacion').load(url,function(){
+            $(this).modal('show');
+            });
+        }
+    </script>
+{% endblock extrajs %}

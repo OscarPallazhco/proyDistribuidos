@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+{% block titulo %}BTM Motion | Listado de Interesados{% endblock titulo %}
+{% block body %}
+
+    {% if interesados %}
+
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Listado de Interesados</strong>
+            </div>
+            <div class="table-stats order-table ov-h">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>                            
+                            <th>NOMBRES</th>
+                            <th>APELLIDOS</th>
+                            <th>CORREO</th>
+                            <th>ASUNTO</th>
+                            <th>MENSAJE</th>
+                            <th>ESTADO</th>
+                            <th>OPCIONES</th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for interesado in interesados %}
+                            <tr>
+                                <td>{{ interesado.idinteresado }}</td>                                
+                                <td>{{ interesado.nombres }}</td>
+                                <td>{{ interesado.apellidos }}</td>
+                                <td>{{ interesado.correo }}</td>
+                                <td>{{ interesado.asunto }}</td>  
+                                <td>{{ interesado.mensaje }}</td>  
+                                <td>{{ interesado.estado }}</td>          
+                                <td>
+                                    <a href="{% url 'AdministracionBTM:eliminar_interesado' interesado.idinteresado %}" class="btn btn-danger">Eliminar</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <h1>No existen interesados registrados</h1>
+    {% endif %}
+{% endblock body %}

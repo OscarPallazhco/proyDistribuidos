@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+{% block titulo %}BTM Motion | Listado de Comentarios{% endblock titulo %}
+{% block body %}
+
+    {% if comentarios %}
+
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Listado de Comentarios</strong>
+            </div>
+            <div class="table-stats order-table ov-h">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>CORREO</th>
+                            <th>NOMBRES</th>
+                            <th>APELLIDOS</th>
+                            <th>COMENTARIO</th>
+                            <th>PROYECTO</th>
+                            <th>ESTADO</th>
+                            <th>OPCIONES</th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for comentario in comentarios %}
+                            <tr>
+                                <td>{{ comentario.idcomentario }}</td>
+                                <td>{{ comentario.correo }}</td>
+                                <td>{{ comentario.nombres }}</td>
+                                <td>{{ comentario.apellidos }}</td>
+                                <td>{{ comentario.comentario }}</td>  
+                                <td>{{ comentario.idproy }}</td>  
+                                <td>{{ comentario.estado }}</td>          
+                                <td>
+                                    <a href="{% url 'AdministracionBTM:eliminar_comentario' comentario.idcomentario %}" class="btn btn-danger">Eliminar</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <h1>No existen comentarios registrados</h1>
+    {% endif %}
+{% endblock body %}

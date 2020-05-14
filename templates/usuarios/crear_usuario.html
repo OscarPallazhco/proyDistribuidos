@@ -1,0 +1,67 @@
+{% extends 'index.html' %}
+{% block titulo %}BTM Motion | Listado de Usuarios{% endblock titulo %}
+{% block body %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    
+        {% if error %}
+            <h2>{{ error }}</h2>
+        {% else %}
+            <div class="card">
+                <div class="card-header">
+                    <strong>Formulario de Registro</strong>
+                </div>
+                <div class="card-body card-block">
+                    <form action="#" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                        <div class="row form-group">
+                            <div class="col col-md-3">{{ form.username.label }}</div> 
+                            <div class="col-12 col-md-9">{{ form.username }}</div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">{{ form.email.label }}</div> 
+                            <div class="col-12 col-md-9">{{ form.email }}</div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">{{ form.nombres.label }}</div> 
+                            <div class="col-12 col-md-9">{{ form.nombres }}</div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">{{ form.apellidos.label }}</div> 
+                            <div class="col-12 col-md-9">{{ form.apellidos }}</div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">{{ form.password1.label }}</div> 
+                            <div class="col-12 col-md-9">{{ form.password1 }}</div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">{{ form.password2.label }}</div> 
+                            <div class="col-12 col-md-9">{{ form.password2 }}</div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">{{ form.usuario_activo.label }}</div> 
+                            <div class="col-12 col-md-9">{{ form.usuario_activo }}</div>
+                            
+                        </div>
+                        <div class="row form-group">
+                            <div class="col col-md-3">{{ form.usuario_administrador.label }}</div> 
+                            <div class="col-12 col-md-9">{{ form.usuario_administrador }}</div>
+                            
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-success" type="submit">Registrar</button>
+                            <a href="{% url 'Usuario:listar_usuario' %}" class="btn btn-danger">Cancelar</button></a>
+                        </div>
+                    </form>
+                </div>
+            </div>                           
+    {% endif %}        
+</form>
+    
+{% endblock body %}

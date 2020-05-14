@@ -1,0 +1,81 @@
+{% extends 'index.html' %}
+{% block titulo %}BTM Motion | Listado de Clientes{% endblock titulo %}
+{% block body %}
+
+    <div class="text-center pb-4">
+        <button class="btn btn-primary btn-block" type="button" onclick="abrir_modal_creacion('{% url 'AdministracionBTM:crear_cliente' %}')">Crear Cliente</button>
+    </div>
+
+    {% if clientes %}
+
+        <div class="card">
+            <div class="card-header">
+                <strong class="card-title">Listado de Clientes</strong>
+            </div>
+            <div class="table-stats order-table ov-h">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>CI/RUC</th>
+                            <th>NOMBRES</th>
+                            <th>APELLIDOS</th>
+                            <th>EMPRESA</th>
+                            <th>WEB</th>
+                            <th>DIRECCIÓN</th>
+                            <th>PROVINCIA</th>
+                            <th>CANTON</th>
+                            <th>CP</th>
+                            <th>CORREO ELECTRÓNICO</th>                    
+                            <th>DESCRIPCIÓN</th>
+                            <th>NOTAS</th>
+                            <th>OPCIONES</th>                    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cliente in clientes %}
+                            <tr>
+                                <td>{{ cliente.ci_ruc }}</td>
+                                <td>{{ cliente.nombres }}</td>
+                                <td>{{ cliente.apellidos }}</td>
+                                <td>{{ cliente.empresa }}</td>
+                                <td>{{ cliente.web }}</td>
+                                <td>{{ cliente.direccion }}</td>
+                                <td>{{ cliente.provincia }}</td>
+                                <td>{{ cliente.canton}}</td>
+                                <td>{{ cliente.cp }}</td>                        
+                                <td>{{ cliente.correo }}</td>                                               
+                                <td>{{ cliente.descripcion }}</td>
+                                <td>{{ cliente.notas }}</td>                      
+                                <td>
+                                    <button onclick="abrir_modal_edicion('{% url 'AdministracionBTM:editar_cliente' cliente.ci_ruc %}')" class='btn btn-primary btn-sm'>EDITAR</button>
+                                    <a href="{% url 'AdministracionBTM:eliminar_cliente' cliente.ci_ruc %}" class="btn btn-danger btn-sm">ELIMINAR</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <h1>No existen clientes registrados</h1>
+    {% endif %}
+    <div class="modal fade" id="creacion" role="dialog"></div>
+    <div class="modal fade" id="edicion" role="dialog"></div>
+
+{% endblock body %}
+
+{% block extrajs %}
+    <script type="text/javascript">
+        var $ = jQuery.noConflict();        
+        function abrir_modal_edicion(url){
+            $('#edicion').load(url, function (){
+            $(this).modal('show');
+            });
+        }
+        function abrir_modal_creacion(url){
+            $('#creacion').load(url,function(){
+            $(this).modal('show');
+            });
+        }
+    </script>
+{% endblock extrajs %}
