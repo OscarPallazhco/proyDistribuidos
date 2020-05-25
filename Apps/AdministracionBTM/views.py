@@ -1,8 +1,15 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import View, TemplateView, ListView, UpdateView, CreateView, DeleteView
+from django.http import HttpResponse
+from django.core.mail import EmailMessage
 from .forms import *
 from .models import *
+import os
+from io import BytesIO
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.conf import settings
 
 # Create your views here.
 
@@ -358,3 +365,148 @@ class EliminarSuscriptor(DeleteView):
         object.estado = False
         object.save()
         return redirect('AdministracionBTM:listar_suscriptor')
+
+
+
+
+
+def link_callback(uri, rel):
+    """
+    Convert HTML URIs to absolute system paths so xhtml2pdf can access those
+    resources
+    """
+    # use short variable names
+    sUrl = settings.STATIC_URL      # Typically /static/
+    sRoot = settings.STATIC_ROOT    # Typically /home/userX/project_static/
+    mUrl = settings.MEDIA_URL       # Typically /static/media/
+    mRoot = settings.MEDIA_ROOT     # Typically /home/userX/project_static/media/
+
+    # convert URIs to absolute system paths
+    if uri.startswith(mUrl):
+        path = os.path.join(mRoot, uri.replace(mUrl, ""))
+    elif uri.startswith(sUrl):
+        path = os.path.join(sRoot, uri.replace(sUrl, ""))
+    else:
+        return uri  # handle absolute uri (ie: http://some.tld/foo.png)
+
+    # make sure that file exists
+    if not os.path.isfile(path):
+            raise Exception(
+                'media URI must start with %s or %s' % (sUrl, mUrl)
+            )
+    return path
+
+
+
+
+
+def render_to_pdf(template_src, filename):
+    context_dict=getPdfData(filename)
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    filename = context_dict['filename']
+    base_path=settings.BASE_DIR
+    filename_path = base_path+"\\Apps\\AdministracionBTM\\static\\pdfs_cotizaciones\\"+filename
+
+
+    file = open(filename_path, "w+b")
+    pisaStatus = pisa.CreatePDF(html.encode('utf-8'), dest=file, link_callback=link_callback)
+    file.seek(0)
+    pdf = file.read()
+    file.close()
+
+    return HttpResponse(pdf, 'application/pdf')
+
+
+def getPdfData(filename):
+    #delete ext .pdf
+    filenamecopy = filename[0:len(filename)-4]
+    parametros= filenamecopy.split("_")
+    #obtener la cotización que tenga la id que se pasó a esta función en el filename
+    cotizacion = Cotizacion.objects.filter(estado=True, idcot=parametros[1])[0]
+    fecha_lista = str(cotizacion.createdat).split(" ")
+    cliente = cotizacion.ci_ruc
+
+    id_items = cotizacion.iditem.all()
+    lista_dic_items = []
+    subtotal = 0
+    for item in id_items:
+        nombre = item.nombre
+        cantidad = item.cantidad
+        preciounit = item.preciounit
+        total = cantidad * preciounit
+        item_dict = {}
+        item_dict["nombre"]=nombre
+        item_dict["cantidad"]=cantidad
+        item_dict["preciounit"]=preciounit
+        item_dict["total"]= total
+        lista_dic_items.append(item_dict)
+        subtotal+=total
+    pago_iva = subtotal * 0.12
+    total = subtotal + pago_iva
+
+    data = {
+        "filename":filename,
+        "cot_id":parametros[1],
+        "cot_fecha":fecha_lista[0],
+        "cliente_nombre":parametros[2]+" "+parametros[3],
+        "cliente_correo":cliente.correo,
+        "cliente_ci":cliente.ci_ruc,
+        "cliente_direccion":cliente.direccion if cliente.direccion!=None else 'No asignado',
+        "cliente_telefono":"9999999999",
+        "cot_by":"Francisco Vidal",
+        "cot_motivo":cotizacion.motivo if cotizacion.motivo!=None else 'No asignado',
+        "cot_condicion_pago":cotizacion.condicionpago if cotizacion.condicionpago!=None else 'No asignado',
+        "cot_tiempo_estimado":cotizacion.tiempoestimado if cotizacion.tiempoestimado!=None else 'No asignado',
+        "cot_items":lista_dic_items,
+        "cot_subtotal":subtotal,
+        "cot_iva":pago_iva,
+        "cot_total":total,
+    }
+    return data
+
+
+class NotificarEnvioEmail(View):
+    model = Cotizacion
+    template_name = 'AdministracionBTM/notif_envio_email.html'
+
+    def enviar_email(self, filename):
+        filenamecopy = filename[0:len(filename)-4]
+        parametros= filenamecopy.split("_")
+        #obtener la cotización que tenga la id que se pasó a esta función en el filename
+        cotizacion = Cotizacion.objects.filter(estado=True, idcot=parametros[1])[0]
+        cliente = cotizacion.ci_ruc
+        email = cliente.correo
+        
+        base_path=settings.BASE_DIR
+        filename_path = base_path+"\\Apps\\AdministracionBTM\\static\\pdfs_cotizaciones\\"+filename
+        if(not os.path.exists(filename_path)):
+            render_to_pdf('AdministracionBTM/pdf_template.html', filename)
+        
+        email_message = EmailMessage(subject='Cotización BtmMotion', body='Se adjunta la cotización realizada en BtmMotion.\nQue tenga un excelente día', from_email=os.environ.get('EMAIL_HOST_USER'), to=[ email ])
+        email_message.attach_file(filename_path)
+        
+        
+        resultado_envio_email = email_message.send(fail_silently=False)
+        if(resultado_envio_email > 0):
+            return 'Se envió correctamente la cotización al correo: '+ email
+        return 'Error al enviar la cotización al correo: '+ email
+
+    def get(self, request, filename, *args, **kwargs):
+        mensaje = self.enviar_email(filename)
+        return render(request, self.template_name, {'mensaje':mensaje} )
+
+
+class VisualizarPDF(View):
+
+    def get(self, request, filename, *args, **kwargs):
+        base_path=settings.BASE_DIR
+        filename_path = base_path+"\\Apps\\AdministracionBTM\\static\\pdfs_cotizaciones\\"+filename
+        if(os.path.exists(filename_path)):
+            file = open(filename_path, "r+b")
+            file.seek(0)
+            pdf = file.read()
+            file.close()
+            return HttpResponse(pdf, 'application/pdf')
+        respuesta_http = render_to_pdf('AdministracionBTM/pdf_template.html', filename)
+        return respuesta_http
