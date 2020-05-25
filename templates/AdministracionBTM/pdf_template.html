@@ -6,7 +6,7 @@
     <style>
         @font-face {
             font-family: SourceSansPro;
-            src: url("Apps\\AdministracionBTM\\static\\AdministracionBTM\\fonts\\SourceSansPro-Regular.ttf");
+            src: url({{font_static_path}});
         }
 
         th {
@@ -51,6 +51,10 @@
         }
 
         .totales {
+            font-size: 1.2em;
+        }
+
+        #total{
             font-size: 1.4em;
         }
 
@@ -79,7 +83,7 @@
                 top: 50pt;
                 width: 100pt;
                 /* height: 100pt; */
-                background-image: url("Apps\AdministracionBTM\static\AdministracionBTM\images\logo.png");
+                background-image: url({{logo_static_path}});
                 /* font-family: SourceSansPro; */
                 /* -pdf-frame-border: 1 */
             }
@@ -135,6 +139,7 @@
         }
     </style>
     <title>{{filename}}</title>
+    <link rel="icon" type="image/png" href="{{logo_static_path}}">
     <meta charset="utf-8">
 </head>
 
@@ -142,7 +147,7 @@
     <!-- Content for Static Frame 'header_frame' -->
     <div id="header-content">
         <div id="header_content_1">
-            <img src="Apps\\AdministracionBTM\\static\\AdministracionBTM\\images\\logo.png" id="logo">
+            <img src={{logo_static_path}} id="logo">
         </div>
         <div id="header_content_2">
             <b id="titulo">BTM motion</b><br>
@@ -229,7 +234,7 @@
     <hr>
     <p class="totales">Subtotal: ${{cot_subtotal}} </p>
     <p class="totales">Iva 12%: ${{cot_iva}} </p>
-    <p class="totales"><strong>Total: ${{cot_total}} </strong></p>
+    <p class="totales id="total" "><strong>Total: ${{cot_total}} </strong></p>
 
 </body>
 
