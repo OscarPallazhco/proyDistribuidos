@@ -509,10 +509,12 @@ class VisualizarPDF(View):
         print("filename_path")
         print(filename_path)
         if(os.path.exists(filename_path)):
+            print('path existe')
             file = open(filename_path, "r+b")
             file.seek(0)
             pdf = file.read()
             file.close()
             return HttpResponse(pdf, 'application/pdf')
+        print('path existe')
         respuesta_http = render_to_pdf('AdministracionBTM/pdf_template.html', filename)
         return respuesta_http
