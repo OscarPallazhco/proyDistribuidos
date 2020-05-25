@@ -9,6 +9,7 @@ class ClienteForm(forms.ModelForm):
             'ci_ruc': 'Cédula del cliente',
             'nombres': 'Nombres del cliente',
             'apellidos': 'Apellidos del cliente',
+            'telefono': 'Teléfono del cliente',
             'empresa': 'Empresa del cliente',
             'web': 'Página web del cliente',
             'direccion': 'Dirección del cliente',
@@ -41,6 +42,13 @@ class ClienteForm(forms.ModelForm):
                     'placeholder':'Ingrese los apellidos del cliente',
                     'id':'apellidos'
                 }
+            ),
+            'telefono': forms.TextInput(
+               attrs = {
+                    'class':'form-control',
+                    'placeholder':'Ingrese el número de teléfono del cliente',
+                    'id': 'telefono'
+               }
             ),
             'empresa': forms.TextInput(
                 attrs = {
