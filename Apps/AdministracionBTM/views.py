@@ -500,9 +500,12 @@ class NotificarEnvioEmail(View):
 class VisualizarPDF(View):
 
     def get(self, request, filename, *args, **kwargs):
-        base_path=settings.BASE_DIR
-        filename_path = base_path+"\\Apps\\AdministracionBTM\\static\\pdfs_cotizaciones\\"+filename
         print("VisualizarPdDF()")
+        base_path=settings.BASE_DIR
+        print("base_path")
+        print(base_path)
+        # filename_path = base_path+"\\Apps\\AdministracionBTM\\static\\pdfs_cotizaciones\\"+filename
+        filename_path = base_path+"/Apps/AdministracionBTM/static/pdfs_cotizaciones/"+filename        
         print("filename_path")
         print(filename_path)
         if(os.path.exists(filename_path)):
