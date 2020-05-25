@@ -24,6 +24,7 @@ class Cliente(models.Model):
     ci_ruc = models.CharField(primary_key=True, max_length=13, verbose_name='Cédula de Identidad/RUC')
     nombres = models.CharField(max_length=50, verbose_name='Nombres')
     apellidos = models.CharField(max_length=50, verbose_name='Apellidos')
+    telefono = models.CharField(max_length=20, default="0999999999", verbose_name='Teléfono')
     empresa = models.CharField(max_length=50, blank=True, null=True, verbose_name='Empresa')
     web = models.URLField(max_length=200, blank=True, null=True, verbose_name='Página Web')
     direccion = models.CharField(max_length=50, verbose_name='Dirección', null=True, blank=True)
@@ -107,7 +108,7 @@ class Item(models.Model):
         ordering = ['createdat']
 
     def __str__(self):
-        return self.nombre
+        return str(self.cantidad)+" |"+self.nombre+" |$"+str(self.preciounit)
 
 
 class Cotizacion(models.Model):
