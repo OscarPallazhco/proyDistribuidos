@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <style>
+        @font-face {
+            font-family: SourceSansPro;
+            src: url("Apps\\AdministracionBTM\\static\\AdministracionBTM\\fonts\\SourceSansPro-Regular.ttf");
+        }
+
+        th {
+            font-size: 1.3em;
+        }
+
+        td {
+            font-size: 1.2em;
+        }
+
+        #tabla_productos td {
+            margin-left: 45pt;
+        }
+
+        #col_product {
+            /* margin-left: 10pt; */
+        }
+
+        #col_price {
+            margin-right: 15pt;
+        }
+
+        #col_quantity {
+            margin-right: 20pt;
+        }
+
+        #col_total {
+            margin-right: 20pt;
+        }
+
+        #header_content_2 p {
+            font-size: 1.1em;
+        }
+
+        #titulo {
+            font-size: 2.4em;
+        }
+
+        #subtitulo {
+            font-size: 1.4em;
+            font-family: SourceSansPro;
+        }
+
+        .totales {
+            font-size: 1.4em;
+        }
+
+        .alinear-derecha {
+            margin-left: 90pt;
+        }
+
+        @page {
+            size: a4 portrait;
+
+            /* Para ver los bordes de todos los frames */
+            /* -pdf-frame-border: 1; */
+
+            @frame header_frame {
+                -pdf-frame-content: header_content;
+                left: 50pt;
+                top: 50pt;
+                width: 512pt;
+                height: 120pt;
+            }
+
+            @frame header_frame_1 {
+                /* Static Frame */
+                -pdf-frame-content: header_content_1;
+                left: 50pt;
+                top: 50pt;
+                width: 100pt;
+                /* height: 100pt; */
+                background-image: url("Apps\AdministracionBTM\static\AdministracionBTM\images\logo.png");
+                /* font-family: SourceSansPro; */
+                /* -pdf-frame-border: 1 */
+            }
+
+            @frame header_frame_2 {
+                /* Static Frame */
+                -pdf-frame-content: header_content_2;
+                left: 160pt;
+                top: 50pt;
+                width: 302pt;
+                height: 110pt;
+                /* font-family: SourceSansPro; */
+                /* -pdf-frame-border: 1 */
+            }
+
+            @frame linea_frame_1 {
+                -pdf-frame-content: linea_1_content;
+                left: 50pt;
+                top: 160pt;
+                width: 512pt;
+                height: 10pt;
+            }
+
+            @frame cliente_frame {
+                -pdf-frame-content: cliente_content;
+                left: 50pt;
+                top: 180pt;
+                width: 512pt;
+                height: 180pt;
+            }
+
+
+            @frame content_frame {
+                /* Content Frame */
+                left: 50pt;
+                top: 365pt;
+                width: 512pt;
+                height: 400pt;
+                /* font-family: SourceSansPro; */
+            }
+
+            @frame footer_frame {
+                /* Another static Frame */
+                -pdf-frame-content: footer_content;
+                left: 50pt;
+                top: 800pt;
+                width: 512pt;
+                height: 20pt;
+                /* font-family: SourceSansPro; */
+            }
+
+
+        }
+    </style>
+    <title>{{filename}}</title>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <!-- Content for Static Frame 'header_frame' -->
+    <div id="header-content">
+        <div id="header_content_1">
+            <img src="Apps\\AdministracionBTM\\static\\AdministracionBTM\\images\\logo.png" id="logo">
+        </div>
+        <div id="header_content_2">
+            <b id="titulo">BTM motion</b><br>
+            <div id="subtitulo">Batteries & Traction Motors</div>
+            <p>
+                Francisco Vidal Pizarro<br>
+                Ruc: 0705212488001 <br>
+                fvidal21@live.com <br>
+                097 864 1318 <br>
+                Machala, calle Néstor Herrera S/N y Héctor Chica. <br>
+            </p>
+        </div>
+    </div>
+
+
+    <div id="linea_1_content">
+        <hr>
+    </div>
+
+    <div id="cliente_content">
+        <table>
+            <tr>
+                <td><b>Realizado por: </b> Francisco Vidal</td>
+                <td class="alinear-derecha"><b>Presupuesto ID: </b>{{cot_id}}</td>
+            </tr>
+            <tr>
+                <td><b>Presupuesto de: </b>{{cot_motivo}},</td>
+                <td class="alinear-derecha"><b>Fecha: </b>{{cot_fecha}}</td>
+            </tr>
+            <tr>
+                <td><b>Condiciones de pago: </b>{{cot_condicion_pago}}</td>
+                <td class="alinear-derecha"><b>Cliente: </b>{{cliente_nombre}}</td>
+            </tr>
+            <tr>
+                <td><b>Tiempo estimado de trabajo: </b>{{cot_tiempo_estimado}}</td>
+                <td class="alinear-derecha"><b>Ruc: </b>{{cliente_ci}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="alinear-derecha"><b>Dirección: </b>{{cliente_direccion}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="alinear-derecha"><b>Teléfono: </b>{{cliente_telefono}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="alinear-derecha">Oferta válida por 30 días</td>
+            </tr>
+        </table>
+        <br>
+        <h1>Descripción Productos</h1>
+        <hr>
+        <table>
+            <tr>
+                <th id="col_product">Producto</th>
+                <th id="col_price">Precio</th>
+                <th id="col_quantity">Cantidad</th>
+                <th id="col_total">Total</th>
+            </tr>
+        </table>
+    </div>
+
+
+    <!-- Content for Static Frame 'footer_frame' -->
+    <div id="footer_content">Copyright(c) BTM Motion - Energías Renovables y Eficiencia Energética - page
+        <pdf:pagenumber>
+            of <pdf:pagecount>
+    </div>
+
+
+    <!-- HTML Content -->
+    <table id="tabla_productos">        
+        {% for producto in cot_items %}
+            <tr>
+                <td>*{{ producto.nombre}}</td>
+                <td>{{ producto.preciounit}}</td>
+                <td>{{ producto.cantidad}}</td>
+                <td>{{ producto.total}}</td>
+            </tr>
+            {% endfor %}
+    </table>
+
+    <hr>
+    <p class="totales">Subtotal: ${{cot_subtotal}} </p>
+    <p class="totales">Iva 12%: ${{cot_iva}} </p>
+    <p class="totales"><strong>Total: ${{cot_total}} </strong></p>
+
+</body>
+
+</html>
