@@ -27,13 +27,15 @@
                     </thead>
                     <tbody>
                         {% for cotizacion in cotizaciones %}
+                            {% with cotizacion.idcot|stringformat:"s" as id_cot%}
+                            {% with "cot_"|add:id_cot|add:"_"|add:cotizacion.ci_ruc.nombres|add:"_"|add:cotizacion.ci_ruc.apellidos|add:".pdf" as filename %}
                             <tr>
                                 <td>{{ cotizacion.idcot }}</td>
                                 <td>{{ cotizacion.ci_ruc }}</td>
                                 <td>{{ cotizacion.motivo }}</td>
                                 <td>
                                     {% for producto in cotizacion.iditem.all %}
-                                        <li>{{ producto.nombre }}</li>
+                                        <li>{{ producto }}</li>
                                     {% endfor %}                                    
                                 </td>
                                 <td>{{ cotizacion.condicionpago }}</td>
@@ -41,8 +43,13 @@
                                 <td>
                                     <button onclick="abrir_modal_edicion('{% url 'AdministracionBTM:editar_cotizacion' cotizacion.idcot %}')" class='btn btn-primary btn-sm'>EDITAR</button>
                                     <a href="{% url 'AdministracionBTM:eliminar_cotizacion' cotizacion.idcot %}" class="btn btn-danger btn-sm">ELIMINAR</a>
+                                    <button onclick="abrir_modal_notificacion('{% url 'AdministracionBTM:notificar_envio_email' filename %}')" class='btn btn-primary btn-sm'>ENVIAR</button>                              
+                                    <a href="{% url 'AdministracionBTM:visualizar_pdf' filename %}" class='btn btn-primary btn-sm' target="_blank">PDF</a>
+
                                 </td>
                             </tr>
+                            {% endwith %}
+                            {% endwith %}
                         {% endfor %}
                     </tbody>
                 </table>
@@ -53,6 +60,7 @@
     {% endif %}
     <div class="modal fade" id="creacion" role="dialog"></div>
     <div class="modal fade" id="edicion" role="dialog"></div>
+    <div class="modal fade" id="notificacion" role="dialog"></div>
 
 {% endblock body %}
 
@@ -67,6 +75,11 @@
         function abrir_modal_creacion(url){
             $('#creacion').load(url,function(){
             $(this).modal('show');
+            });
+        }
+        function abrir_modal_notificacion(url){         
+            $('#notificacion').load(url,function(){
+                $(this).modal('show');
             });
         }
     </script>
