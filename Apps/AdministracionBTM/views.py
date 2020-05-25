@@ -401,9 +401,6 @@ def link_callback(uri, rel):
 
 
 def render_to_pdf(template_src, filename):
-    print("render_to_pdf()")
-    print("template_src:")
-    print(template_src)
     context_dict=getPdfData(filename)
     template = get_template(template_src)
     html  = template.render(context_dict)
@@ -448,6 +445,10 @@ def getPdfData(filename):
     pago_iva = subtotal * 0.12
     total = subtotal + pago_iva
 
+    base_path=settings.BASE_DIR
+    font_static_path = os.path.join(base_path, "Apps", "AdministracionBTM", "static", "AdministracionBTM", "fonts", "SourceSansPro-Regular.ttf")
+    logo_static_path = os.path.join(base_path, "Apps", "AdministracionBTM", "static", "AdministracionBTM", "images", "logo.png")
+
     data = {
         "filename":filename,
         "cot_id":parametros[1],
@@ -465,6 +466,8 @@ def getPdfData(filename):
         "cot_subtotal":subtotal,
         "cot_iva":pago_iva,
         "cot_total":total,
+        "font_static_path":font_static_path,
+        "logo_static_path":logo_static_path,
     }
     return data
 
@@ -474,7 +477,6 @@ class NotificarEnvioEmail(View):
     template_name = 'AdministracionBTM/notif_envio_email.html'
 
     def enviar_email(self, filename):
-        print("enviar_email()")
         filenamecopy = filename[0:len(filename)-4]
         parametros= filenamecopy.split("_")
         #obtener la cotización que tenga la id que se pasó a esta función en el filename
@@ -484,8 +486,8 @@ class NotificarEnvioEmail(View):
         
         base_path=settings.BASE_DIR
         filename_path = os.path.join(base_path, "Apps", "AdministracionBTM", "static", "pdfs_cotizaciones", filename)
-        # if(not os.path.exists(filename_path)):
-        #     render_to_pdf('AdministracionBTM/pdf_template.html', filename)
+        if(not os.path.exists(filename_path)):
+            render_to_pdf('AdministracionBTM/pdf_template.html', filename)
         
         email_message = EmailMessage(subject='Cotización BtmMotion', body='Se adjunta la cotización realizada en BtmMotion.\nQue tenga un excelente día', from_email=os.environ.get('EMAIL_HOST_USER'), to=[ email ])
         email_message.attach_file(filename_path)
@@ -504,18 +506,13 @@ class NotificarEnvioEmail(View):
 class VisualizarPDF(View):
 
     def get(self, request, filename, *args, **kwargs):
-        print("VisualizarPdDF()")
         base_path=settings.BASE_DIR
         filename_path = os.path.join(base_path, "Apps", "AdministracionBTM", "static", "pdfs_cotizaciones", filename)
-        print("filename_path")
-        print(filename_path)
         if(os.path.exists(filename_path)):
-            print('path existe')
             file = open(filename_path, "r+b")
             file.seek(0)
             pdf = file.read()
             file.close()
             return HttpResponse(pdf, 'application/pdf')
-        print('path no existe')
         respuesta_http = render_to_pdf('AdministracionBTM/pdf_template.html', filename)
         return respuesta_http
