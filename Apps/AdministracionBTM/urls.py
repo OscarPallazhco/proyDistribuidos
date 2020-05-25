@@ -44,4 +44,9 @@ urlpatterns = [
     path('listar_suscriptor/', login_required(ListadoSuscriptor.as_view()), name='listar_suscriptor'),
     path('eliminar_suscriptor/<str:pk>', login_required(EliminarSuscriptor.as_view()), name='eliminar_suscriptor'),
 
+    path('notificar_envio_email/<str:filename>', login_required(NotificarEnvioEmail.as_view()), name='notificar_envio_email'),
+    
+    path('visualizar_pdf/<str:filename>', login_required(VisualizarPDF.as_view()), name='visualizar_pdf'),
+
+
 ]
