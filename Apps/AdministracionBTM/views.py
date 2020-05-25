@@ -472,6 +472,8 @@ class NotificarEnvioEmail(View):
 
     def enviar_email(self, filename):
         print("enviar_email()")
+        print("os.path.abspath(__file__)")
+        print(os.path.abspath(__file__))
         filenamecopy = filename[0:len(filename)-4]
         parametros= filenamecopy.split("_")
         #obtener la cotización que tenga la id que se pasó a esta función en el filename
@@ -482,14 +484,17 @@ class NotificarEnvioEmail(View):
         base_path=settings.BASE_DIR
         print("base_path")
         print(base_path)
-        filename_path = base_path+"\\Apps\\AdministracionBTM\\static\\pdfs_cotizaciones\\"+filename
+        # filename_path = base_path+"\\Apps\\AdministracionBTM\\static\\pdfs_cotizaciones\\"+filename
+        filename_path = base_path+"\\Apps\\AdministracionBTM\\static\\pdfs_cotizaciones\\"+"no_important.txt"
         print("filename_path")
         print(filename_path)
+        print("filename_path_2")
+        print(os.path.join(base_path, "Apps", "AdministracionBTM", "static", "pdfs_cotizaciones", "no_important.txt"))
         # if(not os.path.exists(filename_path)):
         #     render_to_pdf('AdministracionBTM/pdf_template.html', filename)
         
         email_message = EmailMessage(subject='Cotización BtmMotion', body='Se adjunta la cotización realizada en BtmMotion.\nQue tenga un excelente día', from_email=os.environ.get('EMAIL_HOST_USER'), to=[ email ])
-        # email_message.attach_file(filename_path)
+        email_message.attach_file(filename_path)
         
         
         resultado_envio_email = email_message.send(fail_silently=False)
