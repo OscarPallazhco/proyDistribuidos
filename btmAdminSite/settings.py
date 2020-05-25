@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import environ
+
+env = environ.Env()
+environ.Env.read_env() 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,10 +24,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'k5+fgz%jsk&p(hp6hhd$3&*38hi$xshvsj&7m!$=yld)bq==j8'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -78,16 +82,7 @@ WSGI_APPLICATION = 'btmAdminSite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-       'HOST': 'ec2-54-147-209-121.compute-1.amazonaws.com',
-       'NAME': 'daji73i2gt2a5t',
-       'USER': 'urhksjglrvvehg',
-       'PASSWORD': '14daed05ad08a4959d4235ec58542c45a8fef0fcf6b89d7c95c3db443f45b26e',
-       'PORT': 5432,
-    }
-}
+DATABASES = {'default': env.db('DATABASE_URL_EXTER')}
 
 
 # Password validation
@@ -129,9 +124,13 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = [BASE_DIR, 'static',]
 
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
+
+#Email configurations
+EMAIL_BACKEND        = env.str('EMAIL_BACKEND')
+EMAIL_HOST           = env.str('EMAIL_HOST')
+EMAIL_PORT           = env.int('EMAIL_PORT')
+EMAIL_HOST_USER      = env.str('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD  = env.str('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS        = env.bool('EMAIL_USE_TLS')
