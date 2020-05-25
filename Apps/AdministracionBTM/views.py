@@ -409,7 +409,7 @@ def render_to_pdf(template_src, filename):
     html  = template.render(context_dict)
     filename = context_dict['filename']
     base_path=settings.BASE_DIR
-    filename_path = base_path+"\\Apps\\AdministracionBTM\\static\\pdfs_cotizaciones\\"+filename
+    filename_path = os.path.join(base_path, "Apps", "AdministracionBTM", "static", "pdfs_cotizaciones", filename)
 
 
     file = open(filename_path, "w+b")
