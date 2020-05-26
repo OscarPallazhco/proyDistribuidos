@@ -31,7 +31,7 @@
                                 <td>{{ item.nombre }}</td>
                                 <td>{{ item.cantidad }}</td>
                                 <td>{{ item.preciounit }}</td>
-                                <td>{{ item.descripcion }}</td>
+                                <td style="text-transform: none;">{{ item.descripcion }}</td>
                                 <td>
                                     <button onclick="abrir_modal_edicion('{% url 'AdministracionBTM:editar_item' item.iditem %}')" class='btn btn-primary btn-sm'>EDITAR</button>
                                     <a href="{% url 'AdministracionBTM:eliminar_item' item.iditem %}" class="btn btn-danger btn-sm">ELIMINAR</a>

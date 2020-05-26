@@ -4,9 +4,9 @@
             <button class="close" type="button" data-dismiss="modal" aria-label="close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            <h2 class="modal-title">Creación de Usuario</h2>            
+            <h2 class="modal-title">Edición de Usuario: {{ object }}</h2>            
         </div>
-        <form action="{% url 'Usuario:crear_usuario' %}" method="POST">
+        <form action="{% url 'Usuario:editar_usuario' object.username %}" method="POST">
             {% csrf_token %}
             <div class="modal-body">
                 {% if error %}

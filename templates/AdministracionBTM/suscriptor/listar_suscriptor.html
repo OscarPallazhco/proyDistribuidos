@@ -13,15 +13,13 @@
                     <thead>
                         <tr>
                             <th>CORREO</th>
-                            <th>ESTADO</th>
                             <th>OPCIONES</th>                    
                         </tr>
                     </thead>
                     <tbody>
                         {% for suscriptor in suscriptores %}
                             <tr>
-                                <td>{{ suscriptor.correo }}</td> 
-                                <td>{{ suscriptor.estado }}</td>          
+                                <td style="text-transform: lowercase;">{{ suscriptor.correo }}</td> 
                                 <td>
                                     <a href="{% url 'AdministracionBTM:eliminar_suscriptor' suscriptor.correo %}" class="btn btn-danger">Eliminar</a>
                                 </td>

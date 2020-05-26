@@ -35,11 +35,11 @@
                                 <td>{{ cotizacion.motivo }}</td>
                                 <td>
                                     {% for producto in cotizacion.iditem.all %}
-                                        <li>{{ producto }}</li>
+                                        <li>{{ producto.nombre }}</li>
                                     {% endfor %}                                    
                                 </td>
-                                <td>{{ cotizacion.condicionpago }}</td>
-                                <td>{{ cotizacion.tiempoestimado }}</td>  
+                                <td style="text-transform: none;">{{ cotizacion.condicionpago }}</td>
+                                <td style="text-transform: lowercase;">{{ cotizacion.tiempoestimado }}</td>  
                                 <td>
                                     <button onclick="abrir_modal_edicion('{% url 'AdministracionBTM:editar_cotizacion' cotizacion.idcot %}')" class='btn btn-primary btn-sm'>EDITAR</button>
                                     <a href="{% url 'AdministracionBTM:eliminar_cotizacion' cotizacion.idcot %}" class="btn btn-danger btn-sm">ELIMINAR</a>

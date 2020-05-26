@@ -61,3 +61,22 @@ class RegistrarUsuario(CreateView):
             return redirect('Usuario:listar_usuario')
         else:
             return render(request, self.template_name, {'form': form})
+
+class ActualizarUsuario(UpdateView):
+    model = Usuario
+    template_name = 'usuarios/usuario.html'
+    form_class = FormularioUsuario
+    success_url = reverse_lazy('Usuario:listar_usuario')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['usuarios'] = Usuario.objects.filter(usuario_activo=True)
+        return context
+
+class EliminarUsuario(DeleteView):
+    model = Usuario
+    def post(self, request, pk, *args, **kwargs):
+        object = Usuario.objects.get(username=pk)
+        object.usuario_activo = False
+        object.save()
+        return redirect('Usuario:listar_usuario')

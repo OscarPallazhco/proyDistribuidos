@@ -27,9 +27,9 @@
                         {% for categoria in categorias %}
                             <tr>
                                 <td>{{ categoria.idcateg }}</td>
-                                <td>{{ categoria.tag }}</td>
+                                <td style="text-transform: uppercase;">{{ categoria.tag }}</td>
                                 <td>{{ categoria.nombre }}</td>
-                                <td>{{ categoria.descripcion }}</td>       
+                                <td style="text-transform: none;">{{ categoria.descripcion }}</td>       
                                 <td>
                                     <button onclick="abrir_modal_edicion('{% url 'AdministracionBTM:editar_categoria' categoria.idcateg %}')" class='btn btn-primary btn-sm'>EDITAR</button>
                                     <a href="{% url 'AdministracionBTM:eliminar_categoria' categoria.idcateg %}" class="btn btn-danger btn-sm">ELIMINAR</a>

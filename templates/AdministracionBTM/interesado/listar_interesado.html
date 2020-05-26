@@ -18,7 +18,6 @@
                             <th>CORREO</th>
                             <th>ASUNTO</th>
                             <th>MENSAJE</th>
-                            <th>ESTADO</th>
                             <th>OPCIONES</th>                    
                         </tr>
                     </thead>
@@ -28,10 +27,9 @@
                                 <td>{{ interesado.idinteresado }}</td>                                
                                 <td>{{ interesado.nombres }}</td>
                                 <td>{{ interesado.apellidos }}</td>
-                                <td>{{ interesado.correo }}</td>
+                                <td style="text-transform: lowercase;">{{ interesado.correo }}</td>
                                 <td>{{ interesado.asunto }}</td>  
-                                <td>{{ interesado.mensaje }}</td>  
-                                <td>{{ interesado.estado }}</td>          
+                                <td style="text-transform: none;">{{ interesado.mensaje }}</td>      
                                 <td>
                                     <a href="{% url 'AdministracionBTM:eliminar_interesado' interesado.idinteresado %}" class="btn btn-danger">Eliminar</a>
                                 </td>

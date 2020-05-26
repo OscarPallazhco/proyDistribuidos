@@ -19,7 +19,6 @@
                             <th>CI/RUC</th>
                             <th>NOMBRES</th>
                             <th>APELLIDOS</th>
-                            <th>TELÉFONO</th>
                             <th>EMPRESA</th>
                             <th>WEB</th>
                             <th>DIRECCIÓN</th>
@@ -38,16 +37,15 @@
                                 <td>{{ cliente.ci_ruc }}</td>
                                 <td>{{ cliente.nombres }}</td>
                                 <td>{{ cliente.apellidos }}</td>
-                                <td>{{ cliente.telefono }}</td>
                                 <td>{{ cliente.empresa }}</td>
-                                <td>{{ cliente.web }}</td>
+                                <td style="text-transform: lowercase;">{{ cliente.web }}</td>
                                 <td>{{ cliente.direccion }}</td>
                                 <td>{{ cliente.provincia }}</td>
                                 <td>{{ cliente.canton}}</td>
                                 <td>{{ cliente.cp }}</td>                        
-                                <td>{{ cliente.correo }}</td>                                               
-                                <td>{{ cliente.descripcion }}</td>
-                                <td>{{ cliente.notas }}</td>                      
+                                <td style="text-transform: lowercase;">{{ cliente.correo }}</td>                                               
+                                <td style="text-transform: none;">{{ cliente.descripcion }}</td>
+                                <td style="text-transform: none;">{{ cliente.notas }}</td>                      
                                 <td>
                                     <button onclick="abrir_modal_edicion('{% url 'AdministracionBTM:editar_cliente' cliente.ci_ruc %}')" class='btn btn-primary btn-sm'>EDITAR</button>
                                     <a href="{% url 'AdministracionBTM:eliminar_cliente' cliente.ci_ruc %}" class="btn btn-danger btn-sm">ELIMINAR</a>
