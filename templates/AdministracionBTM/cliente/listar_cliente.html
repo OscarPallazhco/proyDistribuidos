@@ -28,7 +28,9 @@
                             <th>CORREO ELECTRÓNICO</th>                    
                             <th>DESCRIPCIÓN</th>
                             <th>NOTAS</th>
-                            <th>OPCIONES</th>                    
+                            {% if request.user.is_staff %}  
+                            <th>OPCIONES</th>  
+                            {% endif %}                  
                         </tr>
                     </thead>
                     <tbody>
@@ -45,11 +47,13 @@
                                 <td>{{ cliente.cp }}</td>                        
                                 <td style="text-transform: lowercase;">{{ cliente.correo }}</td>                                               
                                 <td style="text-transform: none;">{{ cliente.descripcion }}</td>
-                                <td style="text-transform: none;">{{ cliente.notas }}</td>                      
+                                <td style="text-transform: none;">{{ cliente.notas }}</td>   
+                                {% if request.user.is_staff %}                     
                                 <td>
                                     <button onclick="abrir_modal_edicion('{% url 'AdministracionBTM:editar_cliente' cliente.ci_ruc %}')" class='btn btn-primary btn-sm'>EDITAR</button>
                                     <a href="{% url 'AdministracionBTM:eliminar_cliente' cliente.ci_ruc %}" class="btn btn-danger btn-sm">ELIMINAR</a>
                                 </td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                     </tbody>

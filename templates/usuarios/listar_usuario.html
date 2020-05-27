@@ -26,13 +26,12 @@
                     <tbody>
                         {% for usuario in usuarios %}
                             <tr>
-                                <td style="text-transform: lowercase;">{{ usuario.username }}</td>
+                                <td style="text-transform: none;">{{ usuario.username }}</td>
                                 <td>{{ usuario.nombres }}</td>
                                 <td>{{ usuario.apellidos }}</td>  
                                 <td style="text-transform: lowercase;">{{ usuario.email }}</td>      
                                 <td>
                                     <button onclick="abrir_modal_edicion('{% url 'Usuario:editar_usuario' usuario.username %}')" class='btn btn-primary btn-sm'>EDITAR</button>
-                                    <a href="{% url 'Usuario:eliminar_usuario' usuario.username %}" class="btn btn-danger btn-sm">ELIMINAR</a>
                                 </td>
                             </tr>
                         {% endfor %}
