@@ -872,7 +872,7 @@ aside.left-panel {
   top: 0;
   z-index: 999; }
 .right-panel .navbar-brand {
-  width: 170px;
+  width: 160px;
   display: inline-block; }
 .right-panel .menutoggle {
   padding-top: 7px; }
@@ -885,7 +885,7 @@ aside.left-panel {
 .right-panel .navbar-brand {
   line-height: 42px; }
   .right-panel .navbar-brand img {
-    max-width: 100px; }
+    max-width: 95px; }
   .right-panel .navbar-brand.hidden {
     display: none; }
 
