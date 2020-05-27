@@ -447,7 +447,9 @@ def getPdfData(filename):
 
     base_path=settings.BASE_DIR
     font_static_path = os.path.join(base_path, "Apps", "AdministracionBTM", "static", "AdministracionBTM", "fonts", "SourceSansPro-Regular.ttf")
-    logo_static_path = os.path.join(base_path, "Apps", "AdministracionBTM", "static", "AdministracionBTM", "images", "logo.png")
+    # logo_static_path = os.path.join(base_path, "Apps", "AdministracionBTM", "static", "AdministracionBTM", "images", "logo.png")
+    # logo_static_path = os.path.join(base_path, "Apps", "AdministracionBTM", "static", "AdministracionBTM", "images", "logoBTM-negro.jpeg")
+    logo_static_path = os.path.join(base_path, "Apps", "AdministracionBTM", "static", "AdministracionBTM", "images", "logoBTM-transparente.png")
 
     data = {
         "filename":filename,
@@ -466,6 +468,8 @@ def getPdfData(filename):
         "cot_subtotal":subtotal,
         "cot_iva":pago_iva,
         "cot_total":total,
+        "cot_total_porc_1":total *0.7,
+        "cot_total_porc_2":total *0.3,
         "font_static_path":font_static_path,
         "logo_static_path":logo_static_path,
     }
