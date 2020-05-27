@@ -13,8 +13,12 @@
             font-size: 1.3em;
         }
 
-        td {
+        td, #formapagolabel, .mensaje, #mensaje-cuenta{
             font-size: 1.2em;
+        }
+
+        .mensaje{
+            margin-left: 50pt;
         }
 
         #tabla_productos td {
@@ -52,6 +56,7 @@
 
         .totales {
             font-size: 1.2em;
+            margin-left: 380pt;
         }
 
         #total{
@@ -80,7 +85,7 @@
                 /* Static Frame */
                 -pdf-frame-content: header_content_1;
                 left: 50pt;
-                top: 50pt;
+                top: 40pt;
                 width: 100pt;
                 /* height: 100pt; */
                 background-image: url({{logo_static_path}});
@@ -182,7 +187,7 @@
                 <td class="alinear-derecha"><b>Cliente: </b>{{cliente_nombre}}</td>
             </tr>
             <tr>
-                <td><b>Tiempo estimado de trabajo: </b>{{cot_tiempo_estimado}}</td>
+                <td><b>Tiempo estimado de trabajo: </b>{{cot_tiempo_estimado}} laborables</td>
                 <td class="alinear-derecha"><b>Ruc: </b>{{cliente_ci}}</td>
             </tr>
             <tr>
@@ -232,9 +237,18 @@
     </table>
 
     <hr>
-    <p class="totales">Subtotal: ${{cot_subtotal}} </p>
-    <p class="totales">Iva 12%: ${{cot_iva}} </p>
-    <p class="totales id="total" "><strong>Total: ${{cot_total}} </strong></p>
+    <p class="totales">Subtotal: &nbsp&nbsp&nbsp&nbsp${{cot_subtotal}}</p>
+    <p class="totales">Iva 12%:  &nbsp&nbsp&nbsp&nbsp${{cot_iva}} </p>
+    <p class="totales" id="total"><strong>Total: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp${{cot_total}} </strong></p>
+    <br>
+    <br>
+    <h1><Strong>Forma de pago:</Strong><hr class="subir"></h1>    
+    <p class="mensaje">70,00% del importe total a la aceptación del presupuesto. Lo que equivale a: &nbsp;&nbsp;&nbsp;&nbsp;${{cot_total_porc_1}} </p>
+    <p class="mensaje">30,00% del importe total previa a su salida de nuestras bodegas. Equivale a: &nbsp;&nbsp;&nbsp;&nbsp;${{cot_total_porc_2}} </p>
+    <p class="mensaje">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;menos las retenciones que apliquen por ley</p>
+    <p id="mensaje-cuenta">Los abonos se realizarán por transferencia bancaria. Cuenta ahorros Banco del Pacifico #1049670530. (FRANCISCO VIDAL PIZARRO)</p>
+    <hr>
+
 
 </body>
 
