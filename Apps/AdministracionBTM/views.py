@@ -493,14 +493,44 @@ class NotificarEnvioEmail(View):
         if(not os.path.exists(filename_path)):
             render_to_pdf('AdministracionBTM/pdf_template.html', filename)
         
-        email_message = EmailMessage(subject='Cotización BtmMotion', body='Se adjunta la cotización realizada en BtmMotion.\nQue tenga un excelente día', from_email=os.environ.get('EMAIL_HOST_USER'), to=[ email ])
-        email_message.attach_file(filename_path)
-        
-        
-        resultado_envio_email = email_message.send(fail_silently=False)
-        if(resultado_envio_email > 0):
-            return 'Se envió correctamente la cotización al correo: '+ email
-        return 'Error al enviar la cotización al correo: '+ email
+
+        #Crear el mensaje
+        try:
+            email_message = EmailMessage(subject='Cotización BtmMotion', body='Se adjunta la cotización realizada en BtmMotion.\nQue tenga un excelente día', from_email=os.environ.get('EMAIL_HOST_USER'), to=[ email ])
+        except Exception as ex:
+            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            print("Error al crear el mensaje")
+            print(message)
+            return 'Error al enviar la cotización al correo: '+ email
+
+
+        #Adjuntar el archivo al mensaje
+        try:
+            email_message.attach_file(filename_path)
+        except Exception as ex:
+            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            print("Error al adjuntar el archivo")
+            print(message)
+            return 'Error al enviar la cotización al correo: '+ email
+
+
+        #Enviar el mensaje
+        try:
+            resultado_envio_email = email_message.send(fail_silently=False)
+        except Exception as ex:
+            template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+            message = template.format(type(ex).__name__, ex.args)
+            print("Error al enviar el mensaje")
+            print(message)
+            return 'Error al enviar la cotización al correo: '+ email
+        else:
+            if(resultado_envio_email > 0):
+                return 'Se envió correctamente la cotización al correo: '+ email
+            return 'Error al enviar la cotización al correo: '+ email
+
+
 
     def get(self, request, filename, *args, **kwargs):
         mensaje = self.enviar_email(filename)
