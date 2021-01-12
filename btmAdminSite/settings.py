@@ -134,3 +134,18 @@ EMAIL_PORT           = env.int('EMAIL_PORT')
 EMAIL_HOST_USER      = env.str('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD  = env.str('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS        = env.bool('EMAIL_USE_TLS')
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        "KEY_PREFIX": "example"
+    }
+}
+
+# Cache time to live is 15 minutes.
+CACHE_TTL = 60 * 15
