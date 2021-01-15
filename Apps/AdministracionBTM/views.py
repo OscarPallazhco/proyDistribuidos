@@ -11,6 +11,11 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.conf import settings
 
+from django.core.cache import cache
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.views.decorators.cache import cache_page
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+
 # Create your views here.
 
 class Inicio(TemplateView):
@@ -208,7 +213,14 @@ class ListadoCategoria(View):
 
     def get_context_data(self, **kwargs):
         contexto = {}
-        contexto['categorias'] = self.get_queryset()
+        if 'categorias' in cache:
+        	print("cache")
+        	contexto['categorias'] = cache.get('categorias')
+        else:
+        	print("db")
+        	resultado = self.get_queryset()
+        	contexto['categorias'] = resultado
+        	cache.set('categorias', resultado, timeout=CACHE_TTL)
         contexto['form'] = self.form_class
         return contexto
 
